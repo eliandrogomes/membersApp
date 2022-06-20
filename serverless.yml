@@ -5,6 +5,11 @@ frameworkVersion: '3'
 
 custom:
   tableName: 'members-${sls:stage}'
+  # dynamodb:
+  #   start:
+  #     migrate: true
+  #   stages:
+  #     - dev
 
 provider:
   name: aws
@@ -47,3 +52,7 @@ resources:
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.tableName}
+
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local

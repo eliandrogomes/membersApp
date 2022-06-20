@@ -1,9 +1,16 @@
 const AWS = require("aws-sdk");
 const dynamoose = require('dynamoose');
 
-dynamoose.aws.sdk.config.update({
-  region: 'us-east-1',
-});
+// local configuration
+const dynamoDbClientParams = {};
+if (process.env.IS_OFFLINE) {
+  dynamoDbClientParams.region = 'localhost'
+  dynamoDbClientParams.endpoint = 'http://localhost:8000'
+} else {
+  dynamoDbClientParams.region = 'us-east-1'
+}
+
+dynamoose.aws.sdk.config.update(dynamoDbClientParams);
 
 const schema = new dynamoose.Schema(
   {
