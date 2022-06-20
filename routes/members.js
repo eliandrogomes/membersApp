@@ -1,20 +1,13 @@
-var express = require("express");
+const express = require("express");
+const MemberController = require("../controllers/MemberController")
+
 var router = express.Router();
 
-/* GET members listing. */
-router.get("/", function (req, res, next) {
-  console.log(req.query);
-  res.send("respond with a resource");
-});
-
-router.get("/:id", (req, res, next) => {
-  console.log(req.params.id);
-  res.send("USER X");
-});
-
-router.post("/", (req, res) => {
-  console.log(req.body);
-  res.send("Got a POST request");
-});
+router.get("/", MemberController.listMembers);
+router.post("/", MemberController.createMember);
+router.get("/:memberId", MemberController.getMember);
+router.put("/:memberId", MemberController.updateMember);
+router.patch("/:memberId", MemberController.updatePartialMember);
+router.delete("/:memberId", MemberController.removeMember);
 
 module.exports = router;
