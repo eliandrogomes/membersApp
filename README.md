@@ -1,6 +1,6 @@
 <!--
 title: 'Serverless Framework with Node Express API service backed by DynamoDB on AWS'
-description: 'This template present an architecture to develop and deploy a simple Node Express API service backed by DynamoDB running on AWS Lambda using the traditional Serverless Framework. The project was organized in routes, controllers and models to clarifies the purposes of each class. So, I built a RESTFUL API to perform CRUD operations as a "workout" challenge'
+description: 'This project present an architecture to develop and deploy a simple Node Express API service backed by DynamoDB running on AWS Lambda using the traditional Serverless Framework. The project was organized in routes, controllers and models to clarifies the purposes of each class. So, I built a RESTFUL API to perform CRUD operations as a "workout" challenge. To help us with model layer was used Dynamoose for ORM.'
 layout: Doc
 framework: v3
 platform: AWS
@@ -76,6 +76,4 @@ Which should result in the following response:
 }
 ```
 
-Other operations and documentation can be found in postman https://xxxxxxx.postman.com
-
-### AWS API Gateway
+Other operations, schemas and documentation can be found in postman /postman and https://www.postman.com/altimetry-specialist-6400776/workspace/eliandro-workspace/api/da7f50f0-c6c8-4bc1-9f39-dc9a4586d831
