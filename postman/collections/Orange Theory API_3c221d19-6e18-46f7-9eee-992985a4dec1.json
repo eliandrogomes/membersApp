@@ -1,0 +1,1195 @@
+{
+	"info": {
+		"_postman_id": "9e9892cf-7a91-4239-8e30-fa2d7d24ba6d",
+		"name": "Orange Theory API",
+		"description": "StartFragment\n\nThis project present an architecture to develop and deploy a simple Node Express API service backed by DynamoDB running on AWS Lambda using the traditional Serverless Framework. The project was organized in routes, controllers and models to clarifies the purposes of each class. So, I built a RESTFUL API to perform CRUD operations as a \"workout\" challenge. To help us with model layer was used Dynamoose for ORM.\n\nEndFragment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "104d5a40-d7a0-4ec5-85d4-83f3dad3f0c3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Member was created\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"    pm.variables.set(\"test_memberEmail\", jsonData.data.email);\r",
+							"    pm.variables.set(\"test_memberId\", jsonData.data.memberId);\r",
+							"});\r",
+							"// pm.test(\"Member created before\", function () {\r",
+							"//     var jsonData = pm.response.json();\r",
+							"//     pm.expect(jsonData.success).to.eql(false);\r",
+							"//     pm.expect(jsonData.msg).to.eql(\"Member alread exists\");\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e2a08b2c-0af5-414a-ae67-ac012808b439",
+						"exec": [
+							"pm.variables.set(\"test_memberEmail\", \"xavier@teste.com\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "2ec0b45a-4ffd-4e36-8170-9fd608930fe4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Teste\",\r\n    \"lastName\": \"Testando\",\r\n    \"middleInitial\": \"T\",\r\n    \"phoneNumber\": 5615555555,\r\n    \"email\": \"{{test_memberEmail}}\",\r\n    \"gender\": \"M\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/members",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"members"
+					]
+				},
+				"description": "Create a new member in the database"
+			},
+			"response": [
+				{
+					"id": "7130bf93-c5da-4b6b-a6b9-af630c2dce3d",
+					"name": "Create member (success)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Eliandro\",\r\n    \"lastName\": \"Gomes\",\r\n    \"middleInitial\": \"V\",\r\n    \"phoneNumber\": 5615555555,\r\n    \"email\": \"eliandro@svianet.com\",\r\n    \"gender\": \"M\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/members",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 Jun 2022 16:35:53 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "258"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"102-gmk+JqQUa5g2MyIg7SvZ5JJ4+Pk\""
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "T-mAhiICIAMEPBg="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": true,\n    \"data\": {\n        \"firstName\": \"Eliandro\",\n        \"lastName\": \"Gomes\",\n        \"middleInitial\": \"V\",\n        \"phoneNumber\": 5615555555,\n        \"email\": \"eliandro@svianet.com\",\n        \"gender\": \"M\",\n        \"createdAt\": 1655656553667,\n        \"updatedAt\": 1655656553667,\n        \"memberId\": \"8bf303de-727e-4ad8-b761-653e29739105\"\n    }\n}"
+				},
+				{
+					"id": "8994cf1f-1d5e-4abe-bbf5-6728f86fd15c",
+					"name": "Create member (error)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Novo teste 1\",\r\n    \"lastName\": \"Theoryads\",\r\n    \"phoneNumber\": 56155111555,\r\n    \"email\": \"nov_tes1@teste.com\",\r\n    \"gender\": \"M\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/members",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 Jun 2022 20:13:31 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "46"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"2e-OlqfARgmPUqO9Ep9frQgdtYHODs\""
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "T_F4xhLroAMEP3w="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": false,\n    \"msg\": \"Member alread exists\"\n}"
+				}
+			]
+		},
+		{
+			"name": "List members",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d4c642d2-255f-4aeb-a92a-45ec0964aae8",
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"const memberId = pm.variables.get(\"test_memberId\");\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.json().success).to.eql(true);\r",
+							"});\r",
+							"pm.test(\"Member into the list members\", function () {\r",
+							"    const memberFound = jsonData.data.find(m => m.memberId === memberId);\r",
+							"    pm.expect(memberFound).to.be.an(\"object\", \"Could not find the member created\" + memberId);\r",
+							"});\r",
+							"pm.test(\"Test data type of the response\", () => {\r",
+							"  pm.expect(jsonData.data[0]).to.be.an(\"object\");\r",
+							"  pm.expect(jsonData.data[0].firstName).to.be.a(\"string\");\r",
+							"  pm.expect(jsonData.data[0].lastName).to.be.a(\"string\");\r",
+							"  pm.expect(jsonData.data[0].gender).to.be.oneOf([\"F\", \"M\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "0e3c3339-2754-47b5-ab58-d3aaa619e44b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/members",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"members"
+					]
+				},
+				"description": "List of all members"
+			},
+			"response": [
+				{
+					"id": "3d6fddd0-a715-4359-a9a2-bfd3a5b04402",
+					"name": "List members (success)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/members",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 Jun 2022 16:48:40 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "540"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"21c-dgAhT3hVbtFxzfsP6pBBRkvZJbA\""
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "T-n4TiK_oAMEPzA="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"phoneNumber\": 5615555555,\n            \"lastName\": \"Theory\",\n            \"updatedAt\": \"2022-06-19T16:43:37.284Z\",\n            \"middleInitial\": \"X\",\n            \"memberId\": \"6fc4a2cb-991d-4d4a-a589-ea4874e9a68f\",\n            \"createdAt\": \"2022-06-19T16:43:37.284Z\",\n            \"email\": \"teste@teste.com\",\n            \"firstName\": \"Teste\",\n            \"gender\": \"M\"\n        },\n        {\n            \"phoneNumber\": 5615555555,\n            \"lastName\": \"Gomes\",\n            \"updatedAt\": \"2022-06-19T16:35:53.667Z\",\n            \"middleInitial\": \"V\",\n            \"memberId\": \"8bf303de-727e-4ad8-b761-653e29739105\",\n            \"createdAt\": \"2022-06-19T16:35:53.667Z\",\n            \"email\": \"eliandro@svianet.com\",\n            \"firstName\": \"Eliandro\",\n            \"gender\": \"M\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d92f8c02-428e-442c-b362-01ced46be03c",
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"const memberId = pm.variables.get(\"test_memberId\");\r",
+							"const memberEmail = pm.variables.get(\"test_memberEmail\");\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Member found\", function () {\r",
+							"    pm.expect(jsonData.data.memberId).to.eql(memberId);\r",
+							"    pm.expect(jsonData.data.email).to.eql(memberEmail);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "5fcd3b27-8027-4f14-a895-540606d56ce1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/members/:memberId",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"members",
+						":memberId"
+					],
+					"variable": [
+						{
+							"key": "memberId",
+							"value": "{{test_memberId}}",
+							"description": "Member ID "
+						}
+					]
+				},
+				"description": "Returns details about a particular member"
+			},
+			"response": [
+				{
+					"id": "3dbf923f-8c63-42d4-8bf0-d5c98c7c6e2c",
+					"name": "Get member (error)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/members/:memberId",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 Jun 2022 16:32:16 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"34-Fci3Zz4nGradDrP8CSr0vkFq/7k\""
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "T-leijx7oAMEPgQ="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": false,\n    \"error\": \"Member id 123 not found!\"\n}"
+				},
+				{
+					"id": "4ded5b28-bb84-4c21-a562-7bbf9512d25d",
+					"name": "Get member (success)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/members/:memberId",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "{{test_memberId}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 20 Jun 2022 03:32:28 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "278"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"116-YG91OAzJsbewuubld27LmLJKXc0\""
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "UAGL9g8RIAMEMww="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": true,\n    \"data\": {\n        \"phoneNumber\": 5615555555,\n        \"lastName\": \"Initial\",\n        \"updatedAt\": \"2022-06-20T03:06:30.527Z\",\n        \"middleInitial\": \"T\",\n        \"memberId\": \"b9167297-5ada-4ccb-a7db-a74719277933\",\n        \"createdAt\": \"2022-06-20T03:06:30.527Z\",\n        \"email\": \"teste@teste.com\",\n        \"firstName\": \"Teste\",\n        \"gender\": \"M\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update data member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "52fcf82a-711d-4a02-a7b8-299d932532bb",
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"const memberId = pm.variables.get(\"test_memberId\");\r",
+							"const memberFirstName = pm.variables.get(\"test_memberFirstName\");\r",
+							"const memberLastName = pm.variables.get(\"test_memberLastName\");\r",
+							"const memberPhoneNumber = pm.variables.get(\"test_memberPhoneNumber\");\r",
+							"const memberEmail = pm.variables.get(\"test_memberEmail\");\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"});\r",
+							"pm.test(\"Member id is the same\", function () {\r",
+							"    pm.expect(jsonData.data.memberId).to.eql(memberId);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Member data changed\", function () {\r",
+							"    pm.expect(jsonData.data.firstName).to.eql(memberFirstName);\r",
+							"    pm.expect(jsonData.data.lastName).to.eql(memberLastName);\r",
+							"    pm.expect(jsonData.data.phoneNumber).to.eql(memberPhoneNumber);\r",
+							"    pm.expect(jsonData.data.email).to.eql(memberEmail);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b514cc85-7173-4b9d-9194-808eb07beeba",
+						"exec": [
+							"pm.variables.set(\"test_memberFirstName\", \"Charles\");\r",
+							"pm.variables.set(\"test_memberLastName\", \"Xavier\");\r",
+							"pm.variables.set(\"test_memberPhoneNumber\", 5556667777);\r",
+							"pm.variables.set(\"test_memberEmail\", \"xavier@xmen.com\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "81919947-5f4c-4ea9-a8f3-084e05e8e8b7",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"{{test_memberFirstName}}\",\r\n    \"middleInitial\": \"X\",\r\n    \"lastName\": \"{{test_memberLastName}}\",\r\n    \"phoneNumber\": {{test_memberPhoneNumber}},\r\n    \"gender\": \"M\",\r\n    \"email\": \"{{test_memberEmail}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/members/:memberId",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"members",
+						":memberId"
+					],
+					"variable": [
+						{
+							"key": "memberId",
+							"value": "{{test_memberId}}",
+							"description": "Member ID"
+						}
+					]
+				},
+				"description": "Update all data of a specific member. If a opcional parameter wasn't sent, the field will be transformed in empty."
+			},
+			"response": [
+				{
+					"id": "fc259901-71b8-461b-9fa6-589d2806d38a",
+					"name": "Update member (error)",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Charles\",\r\n    \"middleInitial\": \"X\",\r\n    \"lastName\": \"Xavier\",\r\n    \"phoneNumber\": 5615555555\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/members/:memberId",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "111"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 Jun 2022 20:19:08 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "176"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"b0-Q5y70t/KpFz2Wk+bMxk20hWCRAo\""
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "T_GtLhU2IAMEPfA="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": false,\n    \"msg\": \"Could not update member data\",\n    \"error\": {\n        \"name\": \"ValidationError\",\n        \"message\": \"email is a required property but has no value when trying to save document\"\n    }\n}"
+				},
+				{
+					"id": "534787f0-bd54-4ac5-8447-4485739ce3c7",
+					"name": "Update member (success)",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Charles\",\r\n    \"middleInitial\": \"X\",\r\n    \"lastName\": \"Xavier\",\r\n    \"phoneNumber\": 5615555555,\r\n    \"gender\": \"M\",\r\n    \"email\": \"xavier@xmen.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/members/:memberId",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "b82e5cdc-0946-4ed7-82d1-1c79683b3159"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 Jun 2022 20:20:21 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "279"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"117-cVtot6bjKdA3g8ot5t+eHDWKf4s\""
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "T_G41iq6oAMEPlQ="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": true,\n    \"data\": {\n        \"phoneNumber\": 5615555555,\n        \"lastName\": \"Xavier\",\n        \"updatedAt\": \"2022-06-19T20:20:21.212Z\",\n        \"middleInitial\": \"X\",\n        \"memberId\": \"b82e5cdc-0946-4ed7-82d1-1c79683b3159\",\n        \"createdAt\": \"2022-06-19T20:14:39.748Z\",\n        \"email\": \"xavier@xmen.com\",\n        \"firstName\": \"Charles\",\n        \"gender\": \"M\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update data member (partial)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0838773b-01a8-41f5-8f9b-4a83a97a79cb",
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"const memberId = pm.variables.get(\"test_memberId\");\r",
+							"const memberFirstName = pm.variables.get(\"test_memberFirstName\");\r",
+							"const memberEmail = pm.variables.get(\"test_memberEmail\");\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"});\r",
+							"pm.test(\"Member id is the same\", function () {\r",
+							"    pm.expect(jsonData.data.memberId).to.eql(memberId);\r",
+							"});\r",
+							"pm.test(\"Member data changed\", function () {\r",
+							"    pm.expect(jsonData.data.firstName).to.eql(memberFirstName);\r",
+							"    pm.expect(jsonData.data.email).to.eql(memberEmail);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8abfa81c-f5dd-433e-ba7f-c64ad44b6b3c",
+						"exec": [
+							"pm.variables.set(\"test_memberFirstName\", \"Xa\");\r",
+							"pm.variables.set(\"test_memberEmail\", \"xa@xmen.com\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "a953c6ea-364f-4fe4-a609-f5c670017938",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"{{test_memberFirstName}}\",\r\n    \"email\": \"{{test_memberEmail}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/members/:memberId",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"members",
+						":memberId"
+					],
+					"variable": [
+						{
+							"key": "memberId",
+							"value": "{{test_memberId}}",
+							"description": "Member ID"
+						}
+					]
+				},
+				"description": "Update a specific information about the member without clean or replace data in fields that wasn't sent."
+			},
+			"response": [
+				{
+					"id": "d27a87d0-a9b2-4e69-8ef1-7c0ba7d84ea4",
+					"name": "Update member(partial) (error)",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Gomes\",\r\n    \"email\": \"test@email.com\",\r\n    \"gender\": \"Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/members/:memberId",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "3dde8abb-b566-40b8-8689-6e0824d7685b"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 Jun 2022 17:10:20 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "182"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"b6-Plglef6nNAxNZAv48G9Q/Jl0r08\""
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "T-rDcgKbIAMEP_Q="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": false,\n    \"msg\": \"Could not update member data\",\n    \"error\": {\n        \"name\": \"ValidationError\",\n        \"message\": \"gender with a value of Z had a validation error when trying to save the document\"\n    }\n}"
+				},
+				{
+					"id": "bf6b8d17-2477-427a-9b06-82675caf9cb5",
+					"name": "Update member(partial) (success)",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Gomes\",\r\n    \"email\": \"test@email.com\",\r\n    \"gender\": \"M\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/members/:memberId",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "3dde8abb-b566-40b8-8689-6e0824d7685b"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 Jun 2022 17:10:49 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "273"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"111-l8QjWpj7l5Li9o0bU8wwPljaAkI\""
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "T-rH-iZJIAMEPJA="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": true,\n    \"data\": {\n        \"phoneNumber\": 5615555555,\n        \"lastName\": \"Gomes\",\n        \"updatedAt\": \"2022-06-19T17:10:49.247Z\",\n        \"middleInitial\": \"\",\n        \"memberId\": \"3dde8abb-b566-40b8-8689-6e0824d7685b\",\n        \"createdAt\": \"2022-06-19T17:06:18.630Z\",\n        \"email\": \"test@email.com\",\n        \"firstName\": \"Test\",\n        \"gender\": \"M\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Remove member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ff9e33d1-fbf6-40ba-b832-92e517b829c8",
+						"exec": [
+							"const memberId = pm.variables.get(\"test_memberId\");\r",
+							"const endpoint = pm.environment.get(\"endpoint\");\r",
+							"const url = endpoint + \"/members/\" + memberId;\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.json().success).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Member was removed\", function () {\r",
+							"    pm.sendRequest(url, function (err, response) {\r",
+							"        let jsonData = response.json();\r",
+							"        pm.expect(jsonData.success).to.eql(false);\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "01832d31-5af4-408a-bdf9-1c4bb429a620",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/members/:memberId",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"members",
+						":memberId"
+					],
+					"variable": [
+						{
+							"key": "memberId",
+							"value": "{{test_memberId}}",
+							"description": "Member ID"
+						}
+					]
+				},
+				"description": "Remove a particular member from the database"
+			},
+			"response": [
+				{
+					"id": "d9199048-b9bd-444a-9a7f-0999382951aa",
+					"name": "Remove user (error)",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/members/:memberId",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 Jun 2022 16:51:53 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "327"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"147-6s1DboEo3U5Dq4kKXwh21xAICDs\""
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "T-oWcih5IAMEPiA="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": false,\n    \"msg\": \"Member id 123 not found or not removed!\",\n    \"error\": {\n        \"message\": \"The conditional request failed\",\n        \"code\": \"ConditionalCheckFailedException\",\n        \"time\": \"2022-06-19T16:51:53.103Z\",\n        \"requestId\": \"LU2H51KC0BDQG38PONEO2AKU8RVV4KQNSO5AEMVJF66Q9ASUAAJG\",\n        \"statusCode\": 400,\n        \"retryable\": false,\n        \"retryDelay\": 29.673458250267803\n    }\n}"
+				},
+				{
+					"id": "5fd52c38-c5e8-4b6e-ab39-466a56780a58",
+					"name": "Remove user (success)",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/members/:memberId",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "6fc4a2cb-991d-4d4a-a589-ea4874e9a68f"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 Jun 2022 16:52:23 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "T-obLh7iIAMEPoA="
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n    \"success\": true\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0270042a-7c1a-4ac8-80a4-4be942a213fa",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6c9aee0e-02c9-4484-a72c-d7904993a642",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "59139810-a4ac-428c-b256-bbb6fa450a04",
+			"key": "test_memberId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "9da2a2a6-702b-48f1-a50a-2879477c1caa",
+			"key": "test_memberFirstName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "8815493b-0f5f-4b29-91af-4f5aa0836261",
+			"key": "test_memberLastName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "69a9605e-7c60-40cc-9e99-3d6f4aca24b5",
+			"key": "test_memberPhoneNumber",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "cb7a58d3-7bcd-4bee-94bd-0fc71cd6519d",
+			"key": "test_memberEmail",
+			"value": "teste@teste.com",
+			"type": "string"
+		}
+	]
+}
