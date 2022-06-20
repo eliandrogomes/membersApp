@@ -1,0 +1,222 @@
+openapi: 3.0.0
+info:
+    version: "1.0.0"
+    title: "Orange Theory API"
+    license:
+        name: MIT
+servers:
+    - url: "https://s510gdx7fi.execute-api.us-east-1.amazonaws.com"
+paths:
+    /members:
+        get:
+            summary: "List members"
+            description: "Returns all members"
+            tags:
+                - members
+            responses:
+                "200":
+                    description: "Member's list"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Result"
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        post:
+            summary: "Create member"
+            description: "Create a new member in the database"
+            tags:
+                - members
+            responses:
+                "200":
+                    description: "Detail data of member that was included"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Result"
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /members/:memberId:
+        get:
+            summary: "Get member"
+            description: "Returns details about a particular member"
+            operationId: memberId
+            tags:
+                - member
+            parameters:
+                - name: memberId
+                  in: query
+                  description: ID of the member
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: "Member response: Details about a member including memberId and created time"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Member"
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            summary: "Update data member"
+            description: "Update all data of a specific member. If a opcional parameter wasn't sent, the field will be transformed in empty"
+            tags:
+                - members
+            parameters:
+                - name: memberId
+                  in: query
+                  description: ID of the member
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: "Detail data of the member with changes"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Result"
+                "400":
+                    description: "Could not update member data"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        patch:
+            summary: "Update data member (partial)"
+            description: "Update a specific information about the member without clean or replace data in fields that wasn't sent."
+            tags:
+                - members
+            parameters:
+                - name: memberId
+                  in: query
+                  description: ID of the member
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: "Detail data of the member with changes"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Result"
+                "400":
+                    description: "Could not update member data"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        delete:
+            summary: "Remove member"
+            description: "Remove a particular member from the database"
+            tags:
+                - members
+            parameters:
+                - name: memberId
+                  in: query
+                  description: ID of the member
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: "Member was removed with success"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Result"
+                "400":
+                    description: "Member not found or not exists"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+components:
+    schemas:
+        Result:
+            type: object
+            required:
+                - success
+            properties:
+                success: 
+                    type: boolean
+                msg: 
+                    type: string
+                data: 
+                    type: object
+        Member:
+            type: object
+            required:
+                - memberId
+                - firstName
+                - lastName
+                - middleInitial
+                - phoneNumber
+                - email
+                - gender
+            properties:
+                memberId:
+                    type: string
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                middleInitial:
+                    type: string
+                phoneNumber:
+                    type: number
+                email:
+                    type: string
+                gender:
+                    type: string
+        Error:
+            type: object
+            required:
+                - success
+                - msg
+            properties:
+                success:
+                    type: boolean
+                msg:
+                    type: string
+                error:
+                    type: object
+    securitySchemes:
+        noAuth:
+            type: http
+            scheme: basic
+security:
+    - noAuth : []
