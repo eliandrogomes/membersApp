@@ -54,7 +54,7 @@ _Note_: In current form, after deployment, your API is public and can be invoked
 After successful deployment, you can create a new user by calling the corresponding endpoint:
 
 ```bash
-curl --request POST 'https://s510gdx7fi.execute-api.us-east-1.amazonaws.com/users' --header 'Content-Type: application/json' --data-raw '{"firstName": "Charles", "middleInitial": "X", "lastName": "Xavier", "gender": "M", "email": "xavier@xmen.com", "phoneNumber": 5615555555}'
+curl --request POST 'https://s510gdx7fi.execute-api.us-east-1.amazonaws.com/members' --header 'Content-Type: application/json' --data-raw '{"firstName": "Charles", "middleInitial": "X", "lastName": "Xavier", "gender": "M", "email": "xavier@xmen.com", "phoneNumber": 5615555555}'
 ```
 
 Which should result in the following response:
